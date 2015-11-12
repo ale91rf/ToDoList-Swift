@@ -8,17 +8,53 @@
 
 import UIKit
 
-class FirstViewController: UIViewController {
+var mToDoList = [String]()
 
+class FirstViewController: UIViewController, UITableViewDelegate {
+
+    @IBOutlet weak var mTableView: UITableView!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        if NSUserDefaults.standardUserDefaults().objectForKey("toDoList") != nil {
+        
+            mToDoList = NSUserDefaults.standardUserDefaults().objectForKey("toDoList") as! [String]
+        
+        }
+        
+        
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        
+        
     }
+    
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        return mToDoList.count
+        
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        let mCell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "Cell")
+        
+        mCell.textLabel?.text = mToDoList[indexPath.row]
+        
+        return mCell
+        
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        mTableView.reloadData()
+    }
+    
+    
 
 
 }
